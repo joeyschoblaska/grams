@@ -6,7 +6,7 @@ class Grams < Sinatra::Base
   end
 
   post "/realtime" do
-    JSON.parse(request.body).each do |update|
+    JSON.parse(request.body.read).each do |update|
       Grams::Post.create_from_update(update)
     end
 
