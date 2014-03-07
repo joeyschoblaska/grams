@@ -16,3 +16,7 @@ task :create_subscription do
      -F 'callback_url=#{URI.join(Grams::Settings[:public_url], "/posts")}' \
      https://api.instagram.com/v1/subscriptions/`
 end
+
+task :remove_subscriptions do
+  `curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=#{Grams::Settings[:instagram_client_secret]}&object=all&client_id=#{Grams::Settings[:instagram_client_id]}'`
+end
