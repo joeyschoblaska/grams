@@ -32,14 +32,16 @@ class Grams < Sinatra::Base
       order_by("likes DESC").first
     end
 
-    def update_from_instagram
-      data = Instagram.media_item(instagram_id)
+    def instagram_data
+      @instagram_data ||= Instagram.media_item(instagram_id)
+    end
 
+    def update_from_instagram
       update_attributes({
-        :link => data["link"],
-        :likes => data["likes"]["count"],
-        :username => data["user"]["username"],
-        :caption => data["caption"]["text"]
+        :link => instagram_data["link"],
+        :likes => instagram_data["likes"]["count"],
+        :username => instagram_data["user"]["username"],
+        :caption => instagram_data["caption"]["text"]
       })
     end
   end
