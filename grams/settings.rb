@@ -7,5 +7,16 @@ class Grams < Sinatra::Base
     end
 
     settings[:post_window] = 60*60*24*2 # 48 hours
+
+    points = [
+      [-87.73131, 41.93146],
+      [-87.68792, 41.93187],
+      [-87.68728, 41.91392],
+      [-87.72187, 41.91325]
+    ]
+
+    points.map!{|p| Geometry::Point.new(*p)}
+
+    settings[:neighborhood] = Geometry::Polygon.new(points)
   end
 end
