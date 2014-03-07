@@ -4,7 +4,7 @@ class Grams < Sinatra::Base
 
     def self.create_from_update(update)
       Instagram.geography_recent_media(update["object_id"]).each do |post|
-        location = Geography::Point.new(post["location"]["longitude"], post["location"]["latitude"])
+        location = Geometry::Point.new(post["location"]["longitude"], post["location"]["latitude"])
 
         if !where(:instagram_id => post["id"]).first && Grams::Settings[:neighborhood].contains?(location)
           create!({
