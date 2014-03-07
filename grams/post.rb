@@ -18,5 +18,9 @@ class Grams < Sinatra::Base
         end
       end
     end
+
+    def self.old
+      where(:created_at => {"$lt" => Time.now - Grams::Settings[:post_window]})
+    end
   end
 end

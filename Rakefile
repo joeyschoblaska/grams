@@ -24,3 +24,7 @@ end
 task :remove_subscriptions do
   `curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=#{Grams::Settings[:instagram_client_secret]}&object=all&client_id=#{Grams::Settings[:instagram_client_id]}'`
 end
+
+task :delete_old_posts do
+  Grams::Post.old.delete
+end
