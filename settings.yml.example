@@ -1,1 +1,3 @@
 mongohq_url: mongodb://user:pass@server.mongohq.com:port/db
+instagram_client_id: client_id
+instagram_client_secret: client_secret
