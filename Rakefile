@@ -13,7 +13,7 @@ task :create_subscription do
      -F 'lat=#{lat}' \
      -F 'lng=#{lng}' \
      -F 'radius=#{radius}' \
-     -F 'callback_url=#{URI.join(Grams::Settings[:public_url], "/posts")}' \
+     -F 'callback_url=#{URI.join(Grams::Settings[:public_url], "/realtime")}' \
      https://api.instagram.com/v1/subscriptions/`
 end
 
