@@ -28,3 +28,7 @@ end
 task :delete_old_posts do
   Grams::Post.old.delete
 end
+
+task :update_active_posts do
+  Grams::Post.active.each{|post| post.update_from_instagram}
+end

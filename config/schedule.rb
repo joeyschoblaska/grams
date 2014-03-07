@@ -6,3 +6,7 @@ set :output, "~/grams_cron.log"
 every 1.hour do
   rake "delete_old_posts"
 end
+
+every 15.minutes do
+  rake "update_active_posts"
+end

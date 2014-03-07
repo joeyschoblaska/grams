@@ -22,5 +22,23 @@ class Grams < Sinatra::Base
     def self.old
       where(:created_at => {"$lt" => Time.now - Grams::Settings[:post_window]})
     end
+
+    def self.active
+      where(:created_at => {"$gt" => Time.now - Grams::Settings[:post_window]})
+    end
+
+    def self.most_popular
+      order_by("likes DESC").first
+    end
+
+    def update_from_instagram
+      data = Instagram.media_item(instagram_id)
+
+      update_attributes({
+        :link => data["link"],
+        :likes => data["likes"]["count"],
+        :username => data["user"]["username"]
+      })
+    end
   end
 end
