@@ -1,5 +1,9 @@
 require "./bootstrap"
 
+task :console do
+  binding.pry
+end
+
 task :create_subscription do
   lat = ENV["LAT"] || raise("You must supply a LAT")
   lng = ENV["LNG"] || raise("You must supply a LNG")
