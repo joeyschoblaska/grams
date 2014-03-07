@@ -1,14 +1,14 @@
 production:
   sessions:
     default:
-      uri: <%= ENV['MONGOHQ_URL'] %>
+      uri: <%= Grams::Settings[:mongohq_url] %>
       options:
         skip_version_check: true
         safe: true
 development:
   sessions:
     default:
-      uri: <%= ENV['MONGOHQ_URL'] %>
+      uri: <%= Grams::Settings[:mongohq_url] %>
       options:
         skip_version_check: true
         safe: true

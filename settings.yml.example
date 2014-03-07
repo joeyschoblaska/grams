@@ -1,0 +1,1 @@
+mongohq_url: mongodb://user:pass@server.mongohq.com:port/db
