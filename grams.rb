@@ -1,7 +1,7 @@
 require "./bootstrap"
 
 class Grams < Sinatra::Base
-  get "/" do
-    "hi"
+  get "/posts" do
+    params["hub.verify_token"] == Grams::Settings[:instagram_client_secret] ? params["hub.challenge"] : "No thank you"
   end
 end
