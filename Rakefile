@@ -42,5 +42,9 @@ end
 
 task :tweet_most_popular do
   gram = Grams::Post.most_popular
-  gram.tweet! unless gram.tweeted
+
+  unless gram.tweeted
+    gram.tweet!
+    gram.follow_author if gram.original_tweet
+  end
 end

@@ -88,5 +88,9 @@ class Grams < Sinatra::Base
 
       update_attribute :tweeted, true
     end
+
+    def follow_author
+      twitter_client.follow(original_tweet.try(:user))
+    end
   end
 end
