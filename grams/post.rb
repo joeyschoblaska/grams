@@ -13,7 +13,7 @@ class Grams < Sinatra::Base
             :likes => post["likes"]["count"],
             :thumbnail => post["images"]["thumbnail"]["url"],
             :username => post["user"]["username"],
-            :caption => post["caption"]["text"],
+            :caption => post["caption"].try(:[], "text"),
             :created_at => Time.now,
             :tweeted => false
           })
@@ -43,7 +43,7 @@ class Grams < Sinatra::Base
         :likes => instagram_data["likes"]["count"],
         :thumbnail => instagram_data["images"]["thumbnail"]["url"],
         :username => instagram_data["user"]["username"],
-        :caption => instagram_data["caption"]["text"]
+        :caption => instagram_data["caption"].try(:[], "text")
       })
     end
   end
