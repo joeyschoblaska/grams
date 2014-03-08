@@ -11,6 +11,7 @@ class Grams < Sinatra::Base
             :instagram_id => post["id"],
             :link => post["link"],
             :likes => post["likes"]["count"],
+            :thumbnail => post["images"]["thumbnail"]["url"],
             :username => post["user"]["username"],
             :caption => post["caption"]["text"],
             :created_at => Time.now,
@@ -21,11 +22,11 @@ class Grams < Sinatra::Base
     end
 
     def self.old
-      where(:created_at => {"$lt" => Time.now - Grams::Settings[:post_window]})
+      where(:created_at => {"$lt" => Time.now - Grams::Settings[:max_post_age]})
     end
 
     def self.active
-      where(:created_at => {"$gt" => Time.now - Grams::Settings[:post_window]})
+      where(:created_at => {"$gt" => Time.now - Grams::Settings[:max_post_age]})
     end
 
     def self.most_popular
@@ -40,6 +41,7 @@ class Grams < Sinatra::Base
       update_attributes({
         :link => instagram_data["link"],
         :likes => instagram_data["likes"]["count"],
+        :thumbnail => instagram_data["images"]["thumbnail"]["url"],
         :username => instagram_data["user"]["username"],
         :caption => instagram_data["caption"]["text"]
       })
