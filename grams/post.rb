@@ -63,5 +63,19 @@ class Grams < Sinatra::Base
     def original_tweet
       tweets_mentioning_link.sort_by{|t| t.id}.first
     end
+
+    def twitter_message
+      "".tap do |message|
+        if caption
+          if caption.length > 115
+            message << "\"#{caption[0,112]}...\" "
+          else
+            message << "\"#{caption}\" "
+          end
+        end
+
+        message << link
+      end
+    end
   end
 end
