@@ -17,7 +17,7 @@ class Grams < Sinatra::Base
       settings[key] = yaml[key.to_s] || ENV[key.to_s.upcase]
     end
 
-    settings[:max_post_age] = 60*60*24*2 # 48 hours
+    settings[:max_post_age] = 60*60*24*3 # 3 days
 
     points = [
       [-87.73131, 41.93146],
