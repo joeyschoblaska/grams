@@ -11,7 +11,6 @@ class Grams < Sinatra::Base
             :instagram_id => post["id"],
             :link => post["link"],
             :likes => post["likes"]["count"],
-            :thumbnail => post["images"]["thumbnail"]["url"],
             :username => post["user"]["username"],
             :caption => post["caption"].try(:[], "text"),
             :created_at => Time.now,
@@ -41,7 +40,6 @@ class Grams < Sinatra::Base
       update_attributes({
         :link => instagram_data["link"],
         :likes => instagram_data["likes"]["count"],
-        :thumbnail => instagram_data["images"]["thumbnail"]["url"],
         :username => instagram_data["user"]["username"],
         :caption => instagram_data["caption"].try(:[], "text")
       })
