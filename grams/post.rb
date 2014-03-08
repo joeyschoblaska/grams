@@ -46,5 +46,22 @@ class Grams < Sinatra::Base
         :caption => instagram_data["caption"].try(:[], "text")
       })
     end
+
+    def twitter_client
+      @twitter_client ||= Twitter::REST::Client.new do |config|
+        config.consumer_key        = Grams::Settings[:twitter_api_key]
+        config.consumer_secret     = Grams::Settings[:twitter_api_secret]
+        config.access_token        = Grams::Settings[:twitter_access_token]
+        config.access_token_secret = Grams::Settings[:twitter_access_token_secret]
+      end
+    end
+
+    def tweets_mentioning_link
+      twitter_client.search(link, :result_type => "recent")
+    end
+
+    def original_tweet
+      tweets_mentioning_link.sort_by{|t| t.id}.first
+    end
   end
 end

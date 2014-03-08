@@ -2,3 +2,7 @@ public_url: http://thisappspublicurl.com
 mongohq_url: mongodb://user:pass@server.mongohq.com:port/db
 instagram_client_id: client_id
 instagram_client_secret: client_secret
+twitter_api_key: api_key
+twitter_api_secret: api_secret
+twitter_access_token: access_token
+twitter_access_token_secret: access_token_secret
