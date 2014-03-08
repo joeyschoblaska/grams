@@ -30,7 +30,7 @@ class Grams < Sinatra::Base
     end
 
     def self.most_popular
-      order_by("likes DESC").first
+      active.order_by("likes DESC").first
     end
 
     def instagram_data
