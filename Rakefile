@@ -30,5 +30,12 @@ task :delete_old_posts do
 end
 
 task :update_active_posts do
-  Grams::Post.active.each{|post| post.update_from_instagram}
+  Grams::Post.active.each do |post|
+    begin
+      post.update_from_instagram
+    rescue Instagram::BadRequest => e
+      puts e.message
+      post.destroy
+    end
+  end
 end
