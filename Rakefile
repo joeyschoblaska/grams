@@ -39,3 +39,8 @@ task :update_active_posts do
     end
   end
 end
+
+task :tweet_most_popular do
+  gram = Grams::Post.most_popular
+  gram.tweet! unless gram.tweeted
+end

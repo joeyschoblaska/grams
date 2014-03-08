@@ -10,3 +10,7 @@ end
 every 1.hour do
   rake "update_active_posts"
 end
+
+every 15.minutes do
+  rake "tweet_most_popular"
+end
