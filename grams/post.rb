@@ -67,6 +67,7 @@ class Grams < Sinatra::Base
     def twitter_message
       "".tap do |message|
         if caption
+          caption.gsub!(/\s#\w+/, "")
           if caption.length > 115
             message << "\"#{caption[0,112]}...\" "
           else
@@ -76,6 +77,16 @@ class Grams < Sinatra::Base
 
         message << link
       end
+    end
+
+    def tweet!
+      if original_tweet
+        twitter_client.retweet(original_tweet)
+      else
+        twitter_client.update(twitter_message)
+      end
+
+      update_attribute :tweeted, true
     end
   end
 end
