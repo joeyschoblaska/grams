@@ -26,7 +26,7 @@ task :remove_subscriptions do
 end
 
 task :delete_old_posts do
-  Grams::Post.old.delete
+  Grams::Post.old.where(:tweeted => false).delete
 end
 
 task :update_active_posts do
