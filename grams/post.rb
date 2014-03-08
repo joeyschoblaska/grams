@@ -62,13 +62,10 @@ class Grams < Sinatra::Base
 
     def twitter_message
       "".tap do |message|
-        if caption
-          caption.gsub!(/\s#\w+/, "")
-          if caption.length > 115
-            message << "\"#{caption[0,112]}...\" "
-          else
-            message << "\"#{caption}\" "
-          end
+        if caption && caption.length > 115
+          message << "\"#{caption[0,112]}...\" "
+        elsif caption
+          message << "\"#{caption}\" "
         end
 
         message << link
