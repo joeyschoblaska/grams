@@ -3,30 +3,21 @@ class Grams < Sinatra::Base
     include Mongoid::Document
     include Mongoid::Timestamps
 
-    field :instagram_id, :type => String
-    field :link, :type => String
-    field :likes, :type => Integer
-    field :caption, :type => String
-    field :tweeted, :type => Boolean
-
-    attr_accessible :instagram_data
-
-    def initialize(instagram_data)
-      @instagram_data = instagram_data
-    end
+    attr_accessor :instagram_data
 
     def self.create_from_update(update)
       Instagram.geography_recent_media(update["object_id"]).each do |instagram_data|
-        post = Grams::Post.new(instagram_data)
+        post = Grams::Post.new
+        post.instagram_data = instagram_data
 
         if !where(:instagram_id => instagram_data["id"]).first && post.location_id && post.location_in_bounds? && post.active_location?
-          post.instagram_id = instagram_data["id"]
-          post.link = instagram_data["link"]
-          post.likes = instagram_data["likes"]["count"]
-          post.caption = instagram_data["caption"].try(:[], "text")
-          post.tweeted = false
-
-          post.save!
+          Grams::Post.create!({
+            :instagram_id => instagram_data["id"],
+            :link => instagram_data["link"],
+            :likes => instagram_data["likes"]["count"],
+            :caption => instagram_data["caption"].try(:[], "text"),
+            :tweeted => false
+          })
         end
       end
     end
