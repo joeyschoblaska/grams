@@ -1,20 +1,32 @@
 class Grams < Sinatra::Base
   class Post
     include Mongoid::Document
+    include Mongoid::Timestamps
+
+    field :instagram_id, :type => String
+    field :link, :type => String
+    field :likes, :type => Integer
+    field :captin, :type => String
+    field :tweeted, :type => Boolean
+
+    attr_accessible :instagram_data
+
+    def initialize(instagram_data)
+      @instagram_data = instagram_data
+    end
 
     def self.create_from_update(update)
-      Instagram.geography_recent_media(update["object_id"]).each do |post|
-        location = Geometry::Point.new(post["location"]["longitude"], post["location"]["latitude"])
+      Instagram.geography_recent_media(update["object_id"]).each do |instagram_data|
+        post = Grams::Post.new(instagram_data)
 
-        if !where(:instagram_id => post["id"]).first && Grams::Settings[:neighborhood].contains?(location) && post["location"]["id"]
-          create!({
-            :instagram_id => post["id"],
-            :link => post["link"],
-            :likes => post["likes"]["count"],
-            :caption => post["caption"].try(:[], "text"),
-            :created_at => Time.now,
-            :tweeted => false
-          })
+        if !where(:instagram_id => instagram_data["id"]).first && post.location_id && post.location_in_bounds? && post.active_location?
+          post.instagram_id = instagram_data["id"]
+          post.link = instagram_data["link"]
+          post.likes = instagram_data["likes"]["count"]
+          post.caption = instagram_data["caption"].try(:[], "text")
+          post.tweeted = false
+
+          post.save!
         end
       end
     end
@@ -84,6 +96,20 @@ class Grams < Sinatra::Base
 
     def follow_author
       twitter_client.follow(original_tweet.try(:user))
+    end
+
+    def active_location?
+      posts = Instagram.location_recent_media(location_id)
+      posts.select{|p| p["user"]["username"]}.uniq.count > 1
+    end
+
+    def location_id
+      instagram_data["location"]["id"]
+    end
+
+    def location_in_bounds?
+      location = Geometry::Point.new(instagram_data["location"]["longitude"], instagram_data["location"]["latitude"])
+      Grams::Settings[:neighborhood].contains?(location)
     end
   end
 end
