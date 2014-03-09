@@ -6,7 +6,7 @@ class Grams < Sinatra::Base
     field :instagram_id, :type => String
     field :link, :type => String
     field :likes, :type => Integer
-    field :captin, :type => String
+    field :caption, :type => String
     field :tweeted, :type => Boolean
 
     attr_accessible :instagram_data
